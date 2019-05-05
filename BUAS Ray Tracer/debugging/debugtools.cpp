@@ -1,6 +1,6 @@
 #include "debugtools.h"
 
-#include "../math/MathLibrary.h"
+#include "../math/mathlibrary.h"
 #include <stdio.h>
 #include "SFML/System/Time.hpp"
 #include "SFML/System/Clock.hpp"

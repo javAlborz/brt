@@ -1,7 +1,7 @@
 #pragma once
 #include "../world/entity.h"
 
-#define SKYCOLOR color(85.f, 89.f, 107.f) // TODO: editable form scene
+#define SKYCOLOR color(85.f, 89.f, 107.f)
 #define GLOBALAMBIENTCOLOR color(40.f, 40.f, 40.f)
 
 namespace sf

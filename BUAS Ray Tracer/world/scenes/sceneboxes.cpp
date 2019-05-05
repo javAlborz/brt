@@ -25,6 +25,8 @@
 #define SCREEN_WIDTH 340.f
 #define SCREEN_HEIGHT 180.f
 
+#define SCENE_CENTER vec3(0.f, 0.f, -10.f)
+
 namespace brt
 {
 	sceneboxes::sceneboxes(raytracer * application) : scene(application)
@@ -93,13 +95,11 @@ namespace brt
 	{
 		const int amountingroup = 10;
 		const float r = M_PI / 12.f; // maxrotamount
-
-		const vec3 center(0.f, 0.f, -10.f); // TODO: move elsewhere
 		
 		vec3 boundingcenterpos(
-			center.m_X + cos(raddir) * disttocenter,
-			center.m_Y,
-			center.m_Z + sin(raddir) * disttocenter);
+			SCENE_CENTER.m_X + cos(raddir) * disttocenter,
+			SCENE_CENTER.m_Y,
+			SCENE_CENTER.m_Z + sin(raddir) * disttocenter);
 
 		const float maxdist = 8.f;
 		
@@ -144,16 +144,14 @@ namespace brt
 #endif
 	}
 
-	vec3 sceneboxes::find_box_pos() // TODO: possibly change this to have a more equal spread over plane, by e.g. working from inside out and not placing more than a certain number of cubes in one area
+	vec3 sceneboxes::find_box_pos()
 	{
 		float dirtobuildin = mathlibrary::random_float_gen(0.f, 2.f * M_PI);
 		float distfromcenter = mathlibrary::random_float_gen(10.f, 50.f);
 
-		const vec3 center(0.f, 0.f, -10.f); // TODO: move elsewhere
-
 		return vec3(
-			center.m_X + cos(dirtobuildin) * distfromcenter,
-			center.m_Y,
-			center.m_Z + sin(dirtobuildin) * distfromcenter);
+			SCENE_CENTER.m_X + cos(dirtobuildin) * distfromcenter,
+			SCENE_CENTER.m_Y,
+			SCENE_CENTER.m_Z + sin(dirtobuildin) * distfromcenter);
 	}
 }

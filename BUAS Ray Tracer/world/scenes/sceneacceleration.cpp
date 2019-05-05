@@ -44,7 +44,6 @@ namespace brt
 		//const int totalspheres = 1000;
 		const int treechildren = 10;
 		
-		// TODO: refactor to be in function and avoid code duplication, this was just for testing purposes
 		// spheres
 #if 1	// if bounding volumes
 		// this way the tree is build top down, and only works with this specific set, this is ok in this situation though, this is to demo the acceleration structure

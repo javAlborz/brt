@@ -1,5 +1,5 @@
 #pragma once
-#include "../math/MathLibrary.h"
+#include "../math/mathlibrary.h"
 
 namespace brt
 {

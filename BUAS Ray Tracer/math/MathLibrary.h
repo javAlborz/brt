@@ -8,7 +8,7 @@
 #define DEG_TO_RAD = M_PI / 180.f
 #define RAD_TO_DEG = 180.f / M_PI
 
-// naming conventions in math/MathLibrary.h differ from the rest of the project
+// naming conventions in math/mathlibrary.h differ from the rest of the project
 
 class vec3; // this way reflect function can use it
 class mathlibrary

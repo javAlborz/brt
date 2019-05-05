@@ -1,4 +1,4 @@
-#include "MathLibrary.h"
+#include "mathlibrary.h"
 
 #include <random>
 
@@ -16,7 +16,7 @@ vec3 mathlibrary::refract(const vec3 & normal, const vec3 & indir, const float r
 {
 	float cost1 = indir.dot(normal); // c1 = cos(theta1)
 	float n1 = 1, n2 = refrectiveindex; // n1 is index of refraction of medium the ray is in before entering the second one
-	// TODO: possibly by passing n1 I can truly simulate the effect of a hollow sphere
+	// TODO: (user story 67) possibly by passing n1 I can truly simulate the effect of a hollow sphere
 
 	vec3 N = normal;
 	if (cost1 < 0.f) // if inside
@@ -519,8 +519,7 @@ mat4 mat4::lookat(const vec3 & a_Eye, const vec3 & a_Center, const vec3 & a_Up)
 		side.m_X, up.m_X, -forward.m_X, 0.f,
 		side.m_Y, up.m_Y, -forward.m_Y, 0.f,
 		side.m_Z, up.m_Z, -forward.m_Z, 0.f,
-		-side.dot(a_Eye), -up.dot(a_Eye), -forward.dot(a_Eye), 1.f); // m_32 is negative in test but positive in my result, I assume that the test is wrong here
-	// TODO: ask lecturers about it on Monday, already inquired with fellow students, no answer yet
+		-side.dot(a_Eye), -up.dot(a_Eye), -forward.dot(a_Eye), 1.f);
 
 	return product;
 }
@@ -539,14 +538,6 @@ mat4 mat4::projection(float a_FovY, float a_AspectRatio, float a_Near, float a_F
 	product.m[2 + 2 * 4] = b;
 	product.m[3 + 2 * 4] = c;
 	product.m[2 + 3 * 4] = -1.f;
-
-	// TODO: task to lecturers about following:
-	// projection matrix in unit test is written in transposed form (row major instead of column major). c and -1 are swapped. This makes unit test invalid
-	//	a		0		0		0
-	//	0		q		0		0
-	//	0		0		b		c
-	//	0		0		-1		0
-	// Google perspective projection matrix for reference
 
 	return product;
 }

@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include "../../math/MathLibrary.h"
+#include "../../math/mathlibrary.h"
 
 #include "../../rendering/materials/material.h"
 

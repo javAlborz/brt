@@ -21,7 +21,6 @@ namespace brt
 	{
 	}
 
-	// TODO: find a more elegant solution that doesn't need a point parameter
 	vec3 triangle::get_normal_at(const vec3&) const // normal is the same over the entire triangle, no point variable needed
 	{
 		return m_normal;

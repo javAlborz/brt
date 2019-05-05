@@ -5,7 +5,7 @@ namespace brt
 	directionallight::directionallight(const vec3 & unitlightdir, color lightcolor, float intensity) :
 		light(lightcolor, intensity), m_lightdir(unitlightdir)
 	{
-		m_ltype = LTYPE_DIRECTIONAL;
+		m_ltype = LTYPE::DIRECTIONAL;
 	}
 
 	directionallight::~directionallight()

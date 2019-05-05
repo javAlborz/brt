@@ -5,6 +5,8 @@
 
 #include "../../debugging/debugtools.h"
 
+#define NORMAL_BIAS 1.0001f
+
 namespace brt
 {
 	aabb::aabb(const vec3& pos, const vec3 bounds[2], std::shared_ptr<material> mat) : sceneobject(pos, mat)
@@ -29,22 +31,19 @@ namespace brt
 		// algorithm from https://blog.johnnovak.net/2016/10/22/the-nim-raytracer-project-part-4-calculating-box-normals/
 		// this way the normal can be calculated without any if statements.
 
-		const float bias = 1.0001f; // TODO: epsilon + 1
-
 		vec3 c = (m_localbounds[0] + m_localbounds[1]) * 0.5f;
 		vec3 p = get_transformation_matrix().inverse_transform_vector(atpos) - position - c; // "- transform.position()" because bounds are local. transforming world position to position in objects coordinate system
 		vec3 d = (m_localbounds[0] - m_localbounds[1]) * 0.5f;
 
 		return vec3(
-			static_cast<float>(static_cast<int>((p.m_X / abs(d.m_X)) * bias)),
-			static_cast<float>(static_cast<int>((p.m_Y / abs(d.m_Y)) * bias)),
-			static_cast<float>(static_cast<int>((p.m_Z / abs(d.m_Z)) * bias))).normalize(); // take int part of float, so rounding down, conversion here is intentional.
+			static_cast<float>(static_cast<int>((p.m_X / abs(d.m_X)) * NORMAL_BIAS)),
+			static_cast<float>(static_cast<int>((p.m_Y / abs(d.m_Y)) * NORMAL_BIAS)),
+			static_cast<float>(static_cast<int>((p.m_Z / abs(d.m_Z)) * NORMAL_BIAS))).normalize(); // take int part of float, so rounding down, conversion here is intentional.
 	}
 
 	bool aabb::has_intersection(const vec3& origin, const vec3& dir, intersection & info)
 	{
 		// settled for algorithm from scratchapixel because of its efficiency.
-		// TODO: comment to show understanding
 		// https://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes/ray-box-intersection
 
 		vec3 invdir = vec3(dir).invert(); // 1 / ray_dir, 1/0 will be positive infinity

@@ -1,10 +1,10 @@
 #pragma once
-enum MTYPE
+enum class MTYPE
 {
-	MTYPE_NONE = 0,
-	MTYPE_DEFAULT,
-	MTYPE_PROCCHECKERBOARD,
-	MTYPE_COUNT
+	NONE = 0,
+	DEFAULT,
+	PROCCHECKERBOARD,
+	COUNT
 };
 
 namespace brt

@@ -5,7 +5,7 @@ namespace brt
 	pointlight::pointlight(const vec3 & lightpos, color lightcolor, float intensity) :
 		light(lightpos, lightcolor, intensity)
 	{
-		m_ltype = LTYPE_POINT;
+		m_ltype = LTYPE::POINT;
 	}
 
 	pointlight::~pointlight()

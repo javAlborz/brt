@@ -9,7 +9,7 @@ namespace brt
 		materialproccheckerboard(float tilesize, color color1, color color2) :
 			m_tilesize(tilesize), m_color1(color1), m_color2(color2)
 		{
-			m_mattype = MTYPE_PROCCHECKERBOARD;
+			m_mattype = MTYPE::PROCCHECKERBOARD;
 		}
 
 		color get_color_at(float u, float v) // could do without the else statements and just a return at the end but this is better readable

@@ -108,7 +108,7 @@ namespace brt
 		// another way of calculation would be to have a "horizontalvec"*x/width added to "bottomleftpos" 
 	}
 
-	const color renderer::calculate_point_sample(ray & r, int recursivecount) const // TODO: ask: should I split this up into more functions (eg all case bodies into functions), or keep it like this. I hear arguments from both sides
+	const color renderer::calculate_point_sample(ray & r, int recursivecount) const
 	{
 		intersection inter = m_application->get_scene()->check_for_intersection(r);
 
@@ -123,7 +123,7 @@ namespace brt
 
 			switch (mat->m_mattype)
 			{
-			case (MTYPE_DEFAULT):
+			case (MTYPE::DEFAULT):
 			{
 				std::shared_ptr<materialdefault> matdef = std::static_pointer_cast<materialdefault>(mat);
 
@@ -171,11 +171,11 @@ namespace brt
 
 				break;
 			}
-			case(MTYPE_PROCCHECKERBOARD):
+			case(MTYPE::PROCCHECKERBOARD):
 			{
 				std::shared_ptr<materialproccheckerboard> procmat = std::static_pointer_cast<materialproccheckerboard>(mat);
 				float u, v; // TODO: these should be [0,1]
-				u = obj->position.m_X - inter.intersectionpoint.m_X; // TODO: fix this, like planes, work in 3d
+				u = obj->position.m_X - inter.intersectionpoint.m_X; // TODO: (user story 66) fix this, like planes, work in 3d
 				v = obj->position.m_Z - inter.intersectionpoint.m_Z;
 				color colatpoint = procmat->get_color_at(u, v);
 
@@ -227,9 +227,9 @@ namespace brt
 		float calcspecintensity = calcspecintensityvalue > 0.f ? pow(calcspecintensityvalue, specintensity) : 0.f;
 
 		return color(
-			speccol.m_r * TO_F(l->get_light_color().m_r),
-			speccol.m_g * TO_F(l->get_light_color().m_g),
-			speccol.m_b * TO_F(l->get_light_color().m_b)) / 255.f * calcspecintensity;
+			speccol.m_r * l->get_light_color().m_r,
+			speccol.m_g * l->get_light_color().m_g,
+			speccol.m_b * l->get_light_color().m_b) / 255.f * calcspecintensity;
 	}
 
 	color renderer::calculate_ideal_reflection(int recursivecount, const ray& r, const vec3& normalat, const vec3& intersecpoint) const
@@ -286,12 +286,12 @@ namespace brt
 
 	vec3 renderer::get_light_dir(const std::shared_ptr<light> l, const vec3 & intersecpoint) const
 	{
-		switch (l->m_ltype)
+		switch (l->GetLightType())
 		{
-		case LTYPE_POINT:
+		case LTYPE::POINT:
 			return std::static_pointer_cast<pointlight>(l)->get_light_dir(intersecpoint);
 			break;
-		case LTYPE_DIRECTIONAL:
+		case LTYPE::DIRECTIONAL:
 			return std::static_pointer_cast<directionallight>(l)->get_light_dir();
 			break;
 		default:

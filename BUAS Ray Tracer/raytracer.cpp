@@ -85,7 +85,7 @@ namespace brt
 		}
 	}
 
-	void raytracer::update(float deltat) // deltat not named since this would throw an unreferenced warning
+	void raytracer::update(float deltat)
 	{
 		assert(deltat != 0.f);
 		printf("deltatime: %.4f, fps: %.2f\n", deltat, 1.f / deltat);

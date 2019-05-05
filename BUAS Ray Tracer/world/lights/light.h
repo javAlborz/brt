@@ -3,12 +3,12 @@
 
 #include "../../math/color.h"
 
-enum LTYPE
+enum class LTYPE
 {
-	LTYPE_NONE = 0,
-	LTYPE_POINT,
-	LTYPE_DIRECTIONAL,
-	LTYPE_COUNT
+	NONE = 0,
+	POINT,
+	DIRECTIONAL,
+	COUNT
 };
 
 namespace brt
@@ -24,9 +24,11 @@ namespace brt
 
 		float get_light_intensity() const { return m_lightintensity; }
 
-		LTYPE m_ltype; // TODO: this should only be set in constructor, restrict access
+		LTYPE GetLightType() const { return m_ltype; }
 
 	protected:
+		LTYPE m_ltype;
+
 		color m_lightcolor;
 		float m_lightintensity;
 	};

@@ -23,13 +23,13 @@ namespace brt
 		materialdefault() :
 			m_diffusecolor(color()), m_specularintensity(SPECMIDLYSHINY), m_specularcolor(color()), m_reflectionintensity(REFLECTNONE), m_refractive(false), m_refractiveindex(REFRACTIVENONE)
 		{
-			m_mattype = MTYPE_DEFAULT;
+			m_mattype = MTYPE::DEFAULT;
 		}
 
 		materialdefault(color diffusecolor, float specularintensity = SPECNONE, color specularcolor = color(), float reflectionintensity = REFLECTNONE, bool refractive = false, float refractiveindex = REFRACTIVENONE) :
 			m_diffusecolor(diffusecolor), m_specularintensity(specularintensity), m_specularcolor(specularcolor), m_reflectionintensity(reflectionintensity), m_refractive(refractive), m_refractiveindex(refractiveindex)
 		{
-			m_mattype = MTYPE_DEFAULT;
+			m_mattype = MTYPE::DEFAULT;
 		}
 
 		color m_diffusecolor;

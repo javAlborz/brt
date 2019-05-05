@@ -2,7 +2,7 @@
 
 #include <assert.h>
 
-#include "MathLibrary.h"
+#include "mathlibrary.h"
 #include <algorithm> // std::clamp
 
 namespace brt
