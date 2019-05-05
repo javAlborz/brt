@@ -15,7 +15,7 @@ namespace brt
 
 	vec3 pointlight::get_light_dir(const vec3 & atpos) const
 	{
-		return (transform.position() - atpos).normalize();
+		return (position - atpos).normalize();
 	}
 
 }

@@ -34,6 +34,5 @@ namespace brt
 	private:
 		static std::vector<debugprofiletimerdata> timers;
 		static std::unique_ptr<sf::Clock> m_clock;
-
 	};
 }

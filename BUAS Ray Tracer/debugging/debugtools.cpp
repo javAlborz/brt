@@ -97,7 +97,6 @@ namespace brt
 
 	const float debugtools::end_and_measure_profile_timer(std::string name)
 	{
-		// TODO: fix sloppy quick debug code		
 		auto i = std::begin(timers);
 		while (i != std::end(timers))
 		{

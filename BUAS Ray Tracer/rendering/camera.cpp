@@ -34,27 +34,27 @@ namespace brt
 		// TODO: fly in direction that camera is facing, this is necessary when the camera can rotate
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 		{
-			transform *= mat4::translate(vec3(1.f, 0.f, 0.f) * deltat * speed);
+			position += vec3(1.f, 0.f, 0.f) * deltat * speed;
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 		{
-			transform *= mat4::translate(vec3(-1.f, 0.f, 0.f) * deltat * speed);
+			position += vec3(-1.f, 0.f, 0.f) * deltat * speed;
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 		{
-			transform *= mat4::translate(vec3(0.f, 0.f, 1.f) * deltat * speed);
+			position += vec3(0.f, 0.f, 1.f) * deltat * speed;
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 		{
-			transform *= mat4::translate(vec3(0.f, 0.f, -1.f) * deltat * speed);
+			position += vec3(0.f, 0.f, -1.f) * deltat * speed;
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
 		{
-			transform *= mat4::translate(vec3(0.f, 1.f, 0.f) * deltat * speed);
+			position += vec3(0.f, 1.f, 0.f) * deltat * speed;
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
 		{
-			transform *= mat4::translate(vec3(0.f, -1.f, 0.f) * deltat * speed);
+			position += vec3(0.f, -1.f, 0.f) * deltat * speed;
 		}
 
 		// direction

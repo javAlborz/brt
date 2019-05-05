@@ -118,7 +118,7 @@ namespace brt
 		std::shared_ptr<aabb> vol = std::make_shared<aabb>(vec3(maxdist, 4, maxdist), nullptr);
  		boundingvolume* bv0 = new boundingvolume(bvpos, vol);
  		//bv0->transform *= mat4::translate(bvpos);
-		vol->transform *= mat4::translate(bvpos);
+		vol->position += bvpos;
  		m_objects.push_back(bv0);
  
  		for (int i = 0; i < amountingroup; i++)
@@ -134,12 +134,12 @@ namespace brt
  			
  			// rotation
  			float rotx = mathlibrary::random_float_gen(-r, r), roty = mathlibrary::random_float_gen(-r, r), rotz = mathlibrary::random_float_gen(-r, r);
- 			box->transform *= mat4::rotateX(rotx) * mat4::rotateY(roty) * mat4::rotateZ(rotz);
+ 			box->rotation += vec3(rotx, roty, rotz);
  			
  			// position
  			//vec3 bottomcenterofbox = boundingcenterpos + vec3(mathlibrary::random_float_gen(-maxdist, maxdist), 0, mathlibrary::random_float_gen(-maxdist, maxdist));
 			//box->transform *= mat4::translate(bottomcenterofbox + vec3(0.f, sizey * 0.3f, 0.f));
-			box->transform *= mat4::translate(boundingcenterpos);
+			box->position += boundingcenterpos;
 		}
 #endif
 	}

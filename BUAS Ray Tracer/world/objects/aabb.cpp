@@ -32,7 +32,7 @@ namespace brt
 		const float bias = 1.0001f; // TODO: epsilon + 1
 
 		vec3 c = (m_localbounds[0] + m_localbounds[1]) * 0.5f;
-		vec3 p = transform.inverse_transform_vector(atpos) - transform.position() - c; // "- transform.position()" because bounds are local. transforming world position to position in objects coordinate system
+		vec3 p = get_transformation_matrix().inverse_transform_vector(atpos) - position - c; // "- transform.position()" because bounds are local. transforming world position to position in objects coordinate system
 		vec3 d = (m_localbounds[0] - m_localbounds[1]) * 0.5f;
 
 		return vec3(
@@ -76,7 +76,7 @@ namespace brt
 		{
 			info.object = this;
 			info.distance = tmin;
-			info.intersectionpoint = transform.transform_vector(calculate_intersection_point(tmin, origin, dir)); // transform to world position
+			info.intersectionpoint = get_transformation_matrix().transform_vector(calculate_intersection_point(tmin, origin, dir)); // transform to world position
 			return true;
 		}
 		return false;

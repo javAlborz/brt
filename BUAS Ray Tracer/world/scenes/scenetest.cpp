@@ -56,13 +56,13 @@ namespace brt
 		m_objects.push_back(new aabb(vec3(), bounds, aabbmat2));
 		sceneobject* obj = m_objects[m_objects.size() - 1];
 		
-		obj->transform *= mat4::rotateX(M_PI / -5.f);
-		obj->transform *= mat4::translate(vec3(1.f, 1.f, -8.f));
+		obj->rotation += vec3(M_PI / -5.f, 0.f, 0.f);
+		obj->position += vec3(1.f, 1.f, -8.f);
 
 		m_objects.push_back(new aabb(vec3(), bounds, aabbmat2));
 		sceneobject* obj2 = m_objects[m_objects.size() - 1];
-		obj2->transform *= mat4::rotateX(M_PI / 7.f);
-		obj2->transform *= mat4::translate(vec3(1.f, 1.f, -5.f));
+		obj2->rotation += vec3(M_PI / 7.f, 0.f, 0.f);
+		obj2->position += vec3(1.f, 1.f, -5.f);
 
 		// plane
 		std::shared_ptr<material> planemat = std::static_pointer_cast<material>(std::make_shared<materialdefault>(sf::Color(200, 200, 200), SPECNONE));

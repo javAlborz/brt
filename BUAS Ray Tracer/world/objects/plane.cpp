@@ -30,7 +30,7 @@ namespace brt
 		float denom = dir.dot(m_normal);
 		if (denom != 0.f) // if ray not parallel to plane (denum will be zero when r.dir and normal are perpendicular)
 		{
-			float dist = -(m_normal.dot(origin - transform.position())) / denom;
+			float dist = -(m_normal.dot(origin - position)) / denom;
 			if (dist >= 0.f) // if in front of camera
 			{
 				info.object = this;

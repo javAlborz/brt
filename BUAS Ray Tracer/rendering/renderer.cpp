@@ -102,15 +102,12 @@ namespace brt
 			cam->get_cam_right() * xoffset +
 			cam->get_cam_down() * yoffset).normalize();
 
-		return ray(cam->transform.position(), raydir);
+		return ray(cam->position, raydir);
 		// another way of calculation would be to have a "horizontalvec"*x/width added to "bottomleftpos" 
 	}
 
 	const sf::Color renderer::calculate_point_sample(ray & r, int recursivecount) const // TODO: ask: should I split this up into more functions (eg all case bodies into functions), or keep it like this. I hear arguments from both sides
 	{
-// 		debugtools::start_profile_timer("update");
-// 		printf("update time: %.5f\n", debugtools::end_and_measure_profile_timer("update"));
-
 		intersection inter = m_application->get_scene()->check_for_intersection(r);
 
 		if (inter.hasintersection)
@@ -176,8 +173,8 @@ namespace brt
 			{
 				std::shared_ptr<materialproccheckerboard> procmat = std::static_pointer_cast<materialproccheckerboard>(mat);
 				float u, v; // TODO: these should be [0,1]
-				u = obj->transform.position().m_X - inter.intersectionpoint.m_X; // TODO: fix this, like planes, work in 3d
-				v = obj->transform.position().m_Z - inter.intersectionpoint.m_Z;
+				u = obj->position.m_X - inter.intersectionpoint.m_X; // TODO: fix this, like planes, work in 3d
+				v = obj->position.m_Z - inter.intersectionpoint.m_Z;
 				sf::Color colatpoint = procmat->get_color_at(u, v);
 
 				col += calculate_ambient_shading(colatpoint);
@@ -221,7 +218,7 @@ namespace brt
 
 	color renderer::calculate_phong_shading(const sceneobject* obj, const std::shared_ptr<light> l, const vec3& unitsurfacenormal, const vec3& unitlightdir, const float specintensity, const sf::Color& speccol) const
 	{
-		vec3 unitintersectionpointtocam = (m_application->get_scene()->get_camera()->transform.position() - obj->transform.position()).normalize(); // unit ray from intersection point to camera position
+		vec3 unitintersectionpointtocam = (m_application->get_scene()->get_camera()->position - obj->position).normalize(); // unit ray from intersection point to camera position
 		vec3 halfvec = (unitlightdir + unitintersectionpointtocam).normalize(); // halfvec = |b_mag|A + |a_mag|B ----- vectors are already normalized, length=1
 
 		float calcspecintensityvalue = unitsurfacenormal.dot(halfvec);
@@ -278,7 +275,7 @@ namespace brt
 
 	bool renderer::lies_in_shadow(const vec3& intersecpoint, const sceneobject* obj, const vec3& normalat, const std::shared_ptr<light> l) const
 	{
-		vec3 shadowrdir = (l->transform.position() - intersecpoint).normalize();
+		vec3 shadowrdir = (l->position - intersecpoint).normalize();
 		ray shadowr(intersecpoint + normalat * SHADOW_BIAS, shadowrdir);
 		intersection inter = m_application->get_scene()->check_for_intersection(shadowr);
 

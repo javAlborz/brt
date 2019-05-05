@@ -30,7 +30,7 @@ namespace brt
 			float width = abs((m_localverts[0] - m_localverts[1]).length());
 			float height = abs((m_localverts[0] - m_localverts[2]).length());
 
-			vec3 localinterpoint = info.intersectionpoint - transform.position();
+			vec3 localinterpoint = info.intersectionpoint - position;
 			if (localinterpoint.m_X >= 0.f && localinterpoint.m_X < width &&
 				localinterpoint.m_Z >= 0.f && localinterpoint.m_Z < height)
 			{

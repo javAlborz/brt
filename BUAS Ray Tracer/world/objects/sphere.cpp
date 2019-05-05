@@ -17,12 +17,12 @@ namespace brt
 	vec3 sphere::get_normal_at(const vec3& point) const
 	{
 		// n = (p-c) / r
-		return ((point - transform.position()) / m_radius).normalize();
+		return ((point - position) / m_radius).normalize();
 	}
 
 	bool sphere::has_intersection(const vec3& origin, const vec3& dir, intersection& info)
 	{
-		vec3 local = origin - transform.position();
+		vec3 local = origin - position;
 		//float a = 1; // normalizedvec.dot(normalizedvec) = 1 = r.get_direction().dot(r.get_direction());   leaving this out of formula since its unnecessary
 		float b = 2.f * (local).dot(dir);
 		float c = (local).dot(local) - pow(m_radius, 2);
