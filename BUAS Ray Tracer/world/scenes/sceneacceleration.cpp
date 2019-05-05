@@ -67,8 +67,8 @@ namespace brt
 				bv0->add_object(bv3);
 				for (int k = 0; k < treechildren; k++)
 				{
-					sf::Color col = color(hslcolor(mathlibrary::random_float_gen(0.f, 360.f), mathlibrary::random_float_gen(0.27f, 0.95f), mathlibrary::random_float_gen(0.65f, 0.75f))).to_sf_color(); // create nice pastel like color
-					std::shared_ptr<material> s1mat = std::static_pointer_cast<material>(std::make_shared<materialdefault>(col, SPECEGGSHELL, sf::Color(150, 150, 150)));
+					color col = color(hslcolor(mathlibrary::random_float_gen(0.f, 360.f), mathlibrary::random_float_gen(0.27f, 0.95f), mathlibrary::random_float_gen(0.65f, 0.75f))); // create nice pastel like color
+					std::shared_ptr<material> s1mat = std::static_pointer_cast<material>(std::make_shared<materialdefault>(col, SPECEGGSHELL, color(150, 150, 150)));
 
 					float radius3 = 0.1f;
 					vec3 p3 = mathlibrary::random_point_in_unit_sphere() * (radius2 - radius3 / 2.f) + p2;
@@ -89,8 +89,8 @@ namespace brt
 				vec3 p2 = mathlibrary::random_point_in_unit_sphere() * (radius1 - radius2 / 2.f) + p1;
 				for (int k = 0; k < treechildren; k++)
 				{
-					sf::Color col = color(hslcolor(mathlibrary::random_float_gen(0.f, 360.f), mathlibrary::random_float_gen(0.27f, 0.95f), mathlibrary::random_float_gen(0.65f, 0.75f))).to_sf_color(); // create nice pastel like color
-					std::shared_ptr<material> s1mat = std::static_pointer_cast<material>(std::make_shared<materialdefault>(col, SPECEGGSHELL, sf::Color(150, 150, 150)));
+					color col = color(hslcolor(mathlibrary::random_float_gen(0.f, 360.f), mathlibrary::random_float_gen(0.27f, 0.95f), mathlibrary::random_float_gen(0.65f, 0.75f))).to_sf_color(); // create nice pastel like color
+					std::shared_ptr<material> s1mat = std::static_pointer_cast<material>(std::make_shared<materialdefault>(col, SPECEGGSHELL, color(150, 150, 150)));
 
 					float radius3 = 0.1f;
 					vec3 p3 = mathlibrary::random_point_in_unit_sphere() * (radius2 - radius3 / 2.f) + p2;

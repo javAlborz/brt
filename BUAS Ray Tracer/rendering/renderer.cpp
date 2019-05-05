@@ -177,7 +177,7 @@ namespace brt
 				float u, v; // TODO: these should be [0,1]
 				u = obj->position.m_X - inter.intersectionpoint.m_X; // TODO: fix this, like planes, work in 3d
 				v = obj->position.m_Z - inter.intersectionpoint.m_Z;
-				sf::Color colatpoint = procmat->get_color_at(u, v);
+				color colatpoint = procmat->get_color_at(u, v);
 
 				col += calculate_ambient_shading(colatpoint);
 
@@ -204,21 +204,21 @@ namespace brt
 		}
 	}
 
-	color renderer::calculate_ambient_shading(const sf::Color& colatpoint) const
+	color renderer::calculate_ambient_shading(const color& colatpoint) const
 	{
-		return color(GLOBALAMBIENTCOLOR.m_r * TO_F(colatpoint.r), GLOBALAMBIENTCOLOR.m_g * TO_F(colatpoint.g), GLOBALAMBIENTCOLOR.m_b * TO_F(colatpoint.b)) / 255.f;
+		return color(GLOBALAMBIENTCOLOR.m_r * colatpoint.m_r, GLOBALAMBIENTCOLOR.m_g * colatpoint.m_g, GLOBALAMBIENTCOLOR.m_b * colatpoint.m_b) / 255.f;
 	}
 
-	color renderer::calculate_lamberts_shading(const sf::Color& colatpoint, const std::shared_ptr<light> l, const vec3& unitsurfacenormal, const vec3& unitlightdir) const
+	color renderer::calculate_lamberts_shading(const color& colatpoint, const std::shared_ptr<light> l, const vec3& unitsurfacenormal, const vec3& unitlightdir) const
 	{
 		float calclightintensityvalue = unitsurfacenormal.dot(unitlightdir);
 		float calcdiffuseintensity = calclightintensityvalue > 0.f ? calclightintensityvalue : 0.f;
 
-		return color(TO_F(colatpoint.r) * TO_F(l->get_light_color().m_r), TO_F(colatpoint.g) * TO_F(l->get_light_color().m_g), TO_F(colatpoint.b) * TO_F(l->get_light_color().m_b))
+		return color(colatpoint.m_r * TO_F(l->get_light_color().m_r), TO_F(colatpoint.m_g) * TO_F(l->get_light_color().m_g), TO_F(colatpoint.m_b) * TO_F(l->get_light_color().m_b))
 			/ 255.f * l->get_light_intensity() * calcdiffuseintensity;
 	}
 
-	color renderer::calculate_phong_shading(const sceneobject* obj, const std::shared_ptr<light> l, const vec3& unitsurfacenormal, const vec3& unitlightdir, const float specintensity, const sf::Color& speccol) const
+	color renderer::calculate_phong_shading(const sceneobject* obj, const std::shared_ptr<light> l, const vec3& unitsurfacenormal, const vec3& unitlightdir, const float specintensity, const color& speccol) const
 	{
 		vec3 unitintersectionpointtocam = (m_application->get_scene()->get_camera()->position - obj->position).normalize(); // unit ray from intersection point to camera position
 		vec3 halfvec = (unitlightdir + unitintersectionpointtocam).normalize(); // halfvec = |b_mag|A + |a_mag|B ----- vectors are already normalized, length=1
@@ -227,9 +227,9 @@ namespace brt
 		float calcspecintensity = calcspecintensityvalue > 0.f ? pow(calcspecintensityvalue, specintensity) : 0.f;
 
 		return color(
-			TO_F(speccol.r) * TO_F(l->get_light_color().m_r),
-			TO_F(speccol.g) * TO_F(l->get_light_color().m_g),
-			TO_F(speccol.b) * TO_F(l->get_light_color().m_b)) / 255.f * calcspecintensity;
+			speccol.m_r * TO_F(l->get_light_color().m_r),
+			speccol.m_g * TO_F(l->get_light_color().m_g),
+			speccol.m_b * TO_F(l->get_light_color().m_b)) / 255.f * calcspecintensity;
 	}
 
 	color renderer::calculate_ideal_reflection(int recursivecount, const ray& r, const vec3& normalat, const vec3& intersecpoint) const

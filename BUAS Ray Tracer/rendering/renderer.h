@@ -38,9 +38,9 @@ namespace brt
 
 		const color calculate_point_sample(ray& r, int recursivecount) const;
 
-		color calculate_ambient_shading(const sf::Color& colatpoint) const;
-		color calculate_lamberts_shading(const sf::Color& colatpoint, const std::shared_ptr<light> l, const vec3& unitsurfacenormal, const vec3& unitlightdir) const;
-		color calculate_phong_shading(const sceneobject* obj, const std::shared_ptr<light> l, const vec3& unitsurfacenormal, const vec3& unitlightdir, const float specintensity, const sf::Color& speccol) const;
+		color calculate_ambient_shading(const color& colatpoint) const;
+		color calculate_lamberts_shading(const color& colatpoint, const std::shared_ptr<light> l, const vec3& unitsurfacenormal, const vec3& unitlightdir) const;
+		color calculate_phong_shading(const sceneobject* obj, const std::shared_ptr<light> l, const vec3& unitsurfacenormal, const vec3& unitlightdir, const float specintensity, const color& speccol) const;
 		color calculate_ideal_reflection(int recursivecount, const ray& r, const vec3& normalat, const vec3& intersecpoint) const;
 		color calculate_refraction(int recursivecount, const ray& r, const vec3& normalat, const vec3& intersecpoint, const float refrectiveindex) const;
 		float calculate_fresnel(const ray& r, const vec3& normalat, const float refrectiveindex) const;

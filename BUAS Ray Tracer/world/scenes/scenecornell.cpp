@@ -40,7 +40,7 @@ namespace brt
 
 		// objects
 		// floor
-		std::shared_ptr<material> floorplanemat = std::static_pointer_cast<material>(std::make_shared<materialdefault>(sf::Color(255, 255, 255)));
+		std::shared_ptr<material> floorplanemat = std::static_pointer_cast<material>(std::make_shared<materialdefault>(color(255, 255, 255)));
 		m_objects.push_back(new plane(vec3(0.f, 0.f, 0.f), vec3(0.0f, 1.f, 0.f), floorplanemat));
 
 		// ceiling

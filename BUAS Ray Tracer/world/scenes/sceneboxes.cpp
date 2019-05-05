@@ -48,7 +48,7 @@ namespace brt
 		m_raytracer->get_renderer()->set_resolution(static_cast<unsigned int>(SCREEN_WIDTH), static_cast<unsigned int>(SCREEN_HEIGHT));
 
 		// metal sphere
-		std::shared_ptr<material> metalspheremat = std::static_pointer_cast<material>(std::make_shared<materialdefault>(sf::Color(50, 50, 50), 5.f, sf::Color(160, 160, 160), 0.8f));
+		std::shared_ptr<material> metalspheremat = std::static_pointer_cast<material>(std::make_shared<materialdefault>(color(50, 50, 50), 5.f, color(160, 160, 160), 0.8f));
 		m_objects.push_back(new sphere(vec3(0.f, 1.f, -10.5f), 1.f, metalspheremat));
 
 		// acceleration or not
@@ -82,7 +82,7 @@ namespace brt
 #endif
 
 		// plane
-		std::shared_ptr<material> planemat = std::static_pointer_cast<material>(std::make_shared<materialdefault>(sf::Color(200, 200, 200), SPECNONE));
+		std::shared_ptr<material> planemat = std::static_pointer_cast<material>(std::make_shared<materialdefault>(color(200, 200, 200), SPECNONE));
 		m_objects.push_back(new plane(vec3(0.f, 0.f, 0.f), vec3(0.0f, 1.f, 0.f), planemat));
 
 		// light
@@ -124,7 +124,7 @@ namespace brt
  		for (int i = 0; i < amountingroup; i++)
  		{
  			// material
- 			sf::Color col = color(hslcolor(mathlibrary::random_float_gen(0.f, 360.f), mathlibrary::random_float_gen(0.27f, 0.95f), mathlibrary::random_float_gen(0.65f, 0.75f))).to_sf_color();
+			color col = color(hslcolor(mathlibrary::random_float_gen(0.f, 360.f), mathlibrary::random_float_gen(0.27f, 0.95f), mathlibrary::random_float_gen(0.65f, 0.75f)));
  			std::shared_ptr<material> aabbmat = std::static_pointer_cast<material>(std::make_shared<materialdefault>(col, SPECNONE));
  			
  			// box

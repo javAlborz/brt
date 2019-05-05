@@ -51,7 +51,7 @@ namespace brt
 		vec3 corner2 = vec3(0.5f, 0.75f, 0.5f);
 		vec3 bounds[2] = { corner1, corner2 };
 
-		sf::Color col2 = color(hslcolor(200.f, 0.7f, 0.7f)).to_sf_color();
+		color col2 = color(hslcolor(200.f, 0.7f, 0.7f));
 		std::shared_ptr<material> aabbmat2 = std::static_pointer_cast<material>(std::make_shared<materialdefault>(col2, SPECNONE));
 		m_objects.push_back(new aabb(vec3(), bounds, aabbmat2));
 		sceneobject* obj = m_objects[m_objects.size() - 1];
@@ -65,7 +65,7 @@ namespace brt
 		obj2->position += vec3(1.f, 1.f, -5.f);
 
 		// plane
-		std::shared_ptr<material> planemat = std::static_pointer_cast<material>(std::make_shared<materialdefault>(sf::Color(200, 200, 200), SPECNONE));
+		std::shared_ptr<material> planemat = std::static_pointer_cast<material>(std::make_shared<materialdefault>(color(200, 200, 200), SPECNONE));
 		m_objects.push_back(new plane(vec3(0.f, 0.f, 0.f), vec3(0.0f, 1.f, 0.f), planemat));
 
 		// light

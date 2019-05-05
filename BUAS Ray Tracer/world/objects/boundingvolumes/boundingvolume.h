@@ -1,5 +1,8 @@
 #pragma once
 #include "../sceneobject.h"
+
+#include <vector>
+
 #include "../../../ray/intersection.h"
 
 namespace brt

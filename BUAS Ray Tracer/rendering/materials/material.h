@@ -1,6 +1,4 @@
 #pragma once
-#include "SFML/Graphics.hpp"
-
 enum MTYPE
 {
 	MTYPE_NONE = 0,
