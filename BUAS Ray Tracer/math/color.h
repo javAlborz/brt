@@ -11,7 +11,8 @@ namespace brt
 	{
 #pragma warning(push)
 #pragma warning(disable : 4201)
-		union {
+		union
+		{
 			struct
 			{
 				float m_h;
@@ -21,7 +22,7 @@ namespace brt
 			float c[HSVCOLOR_ELEMENTS_COUNT];
 		};
 #pragma warning(pop)
-	
+
 		hsvcolor(float h, float s, float b);
 	};
 
@@ -29,7 +30,8 @@ namespace brt
 	{
 #pragma warning(push)
 #pragma warning(disable : 4201)
-		union {
+		union
+		{
 			struct
 			{
 				float m_h;
@@ -79,6 +81,8 @@ namespace brt
 		float& operator[](int index);
 
 		sf::Color to_sf_color() const;
+
+		static color white() { return color(255.f, 255.f, 255.f); }
 	};
 
 	color operator+(const color &lhs, const color &rhs);

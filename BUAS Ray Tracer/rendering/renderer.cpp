@@ -2,27 +2,29 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "../RayTracer.h"
+#include "../raytracer.h"
 
 #include "camera.h"
+
+#include "materials/materialproccheckerboard.h"
+#include "materials/materialdefault.h"
 
 #include "../debugging/debugtools.h"
 
 #include "../ray/ray.h"
 #include "../ray/intersection.h"
 
+#include "../math/color.h"
+
 #include "../world/entity.h"
 
 #include "../world/scenes/scene.h"
-#include "../world/objects/sceneobject.h"
+
 #include "../world/lights/light.h"
-
-#include "../math/color.h"
-
-#include "materials/materialproccheckerboard.h"
-#include "materials/materialdefault.h"
 #include "../world/lights/pointlight.h"
 #include "../world/lights/directionallight.h"
+
+#include "../world/objects/sceneobject.h"
 #include "../world/objects/plane.h"
 #include "../world/objects/aabb.h"
 
@@ -57,7 +59,7 @@ namespace brt
 			for (int x = 0; x < static_cast<int>(m_application->get_scene()->get_camera()->get_screen_width()); x++)
 			{
 				ray r = calculate_point_sample_ray(x, y);
-				m_screenimage->setPixel(x, y, calculate_point_sample(r, 0));
+				m_screenimage->setPixel(x, y, calculate_point_sample(r, 0).to_sf_color());
 			}
 		}
 
@@ -106,7 +108,7 @@ namespace brt
 		// another way of calculation would be to have a "horizontalvec"*x/width added to "bottomleftpos" 
 	}
 
-	const sf::Color renderer::calculate_point_sample(ray & r, int recursivecount) const // TODO: ask: should I split this up into more functions (eg all case bodies into functions), or keep it like this. I hear arguments from both sides
+	const color renderer::calculate_point_sample(ray & r, int recursivecount) const // TODO: ask: should I split this up into more functions (eg all case bodies into functions), or keep it like this. I hear arguments from both sides
 	{
 		intersection inter = m_application->get_scene()->check_for_intersection(r);
 
@@ -194,7 +196,7 @@ namespace brt
 				break;
 			}
 
-			return col.to_sf_color();
+			return col;
 		}
 		else
 		{
@@ -204,7 +206,7 @@ namespace brt
 
 	color renderer::calculate_ambient_shading(const sf::Color& colatpoint) const
 	{
-		return color(TO_F(GLOBALAMBIENTCOLOR.r) * TO_F(colatpoint.r), TO_F(GLOBALAMBIENTCOLOR.g) * TO_F(colatpoint.g), TO_F(GLOBALAMBIENTCOLOR.b) * TO_F(colatpoint.b)) / 255.f;
+		return color(GLOBALAMBIENTCOLOR.m_r * TO_F(colatpoint.r), GLOBALAMBIENTCOLOR.m_g * TO_F(colatpoint.g), GLOBALAMBIENTCOLOR.m_b * TO_F(colatpoint.b)) / 255.f;
 	}
 
 	color renderer::calculate_lamberts_shading(const sf::Color& colatpoint, const std::shared_ptr<light> l, const vec3& unitsurfacenormal, const vec3& unitlightdir) const
@@ -212,7 +214,7 @@ namespace brt
 		float calclightintensityvalue = unitsurfacenormal.dot(unitlightdir);
 		float calcdiffuseintensity = calclightintensityvalue > 0.f ? calclightintensityvalue : 0.f;
 
-		return color(TO_F(colatpoint.r) * TO_F(l->get_light_color().r), TO_F(colatpoint.g) * TO_F(l->get_light_color().g), TO_F(colatpoint.b) * TO_F(l->get_light_color().b))
+		return color(TO_F(colatpoint.r) * TO_F(l->get_light_color().m_r), TO_F(colatpoint.g) * TO_F(l->get_light_color().m_g), TO_F(colatpoint.b) * TO_F(l->get_light_color().m_b))
 			/ 255.f * l->get_light_intensity() * calcdiffuseintensity;
 	}
 
@@ -225,9 +227,9 @@ namespace brt
 		float calcspecintensity = calcspecintensityvalue > 0.f ? pow(calcspecintensityvalue, specintensity) : 0.f;
 
 		return color(
-			TO_F(speccol.r) * TO_F(l->get_light_color().r),
-			TO_F(speccol.g) * TO_F(l->get_light_color().g),
-			TO_F(speccol.b) * TO_F(l->get_light_color().b)) / 255.f * calcspecintensity;
+			TO_F(speccol.r) * TO_F(l->get_light_color().m_r),
+			TO_F(speccol.g) * TO_F(l->get_light_color().m_g),
+			TO_F(speccol.b) * TO_F(l->get_light_color().m_b)) / 255.f * calcspecintensity;
 	}
 
 	color renderer::calculate_ideal_reflection(int recursivecount, const ray& r, const vec3& normalat, const vec3& intersecpoint) const

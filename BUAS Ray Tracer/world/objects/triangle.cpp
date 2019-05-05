@@ -1,6 +1,7 @@
 #include "triangle.h"
 
 #include "../../ray/ray.h"
+#include "../../ray/intersection.h"
 
 namespace brt
 {

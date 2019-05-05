@@ -69,7 +69,7 @@ namespace brt
 		m_objects.push_back(new plane(vec3(0.f, 0.f, 0.f), vec3(0.0f, 1.f, 0.f), planemat));
 
 		// light
-		m_lights.push_back(std::static_pointer_cast<light>(std::make_shared<pointlight>(vec3(1.f, 20.f, 0.f), sf::Color::White, 1.f)));
+		m_lights.push_back(std::static_pointer_cast<light>(std::make_shared<pointlight>(vec3(1.f, 20.f, 0.f), color::white(), 1.f)));
 
 		// triangle test
 		//vec3 verts[3] = { vec3(2.f, 0.f, -0.f), vec3(0.f, 2.f, -1.f), vec3(0.f, 0.f, 0.f) };

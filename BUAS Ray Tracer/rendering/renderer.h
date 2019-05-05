@@ -36,7 +36,7 @@ namespace brt
 	private:
 		ray calculate_point_sample_ray(int x, int y) const;
 
-		const sf::Color calculate_point_sample(ray& r, int recursivecount) const;
+		const color calculate_point_sample(ray& r, int recursivecount) const;
 
 		color calculate_ambient_shading(const sf::Color& colatpoint) const;
 		color calculate_lamberts_shading(const sf::Color& colatpoint, const std::shared_ptr<light> l, const vec3& unitsurfacenormal, const vec3& unitlightdir) const;

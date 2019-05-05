@@ -86,7 +86,7 @@ namespace brt
 		m_objects.push_back(new plane(vec3(0.f, 0.f, 0.f), vec3(0.0f, 1.f, 0.f), planemat));
 
 		// light
-		m_lights.push_back(std::static_pointer_cast<light>(std::make_shared<pointlight>(vec3(7.f, 20.f, 8.f), sf::Color::White, 1.f)));
+		m_lights.push_back(std::static_pointer_cast<light>(std::make_shared<pointlight>(vec3(7.f, 20.f, 8.f), color::white(), 1.f)));
 	}
 
 	void sceneboxes::spawn_group(float raddir, float disttocenter)

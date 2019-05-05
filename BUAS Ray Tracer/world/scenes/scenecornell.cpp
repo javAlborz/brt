@@ -69,7 +69,7 @@ namespace brt
 
 		// -----------------------
 		// lights
-		std::shared_ptr<light> l = std::static_pointer_cast<light>(std::make_shared<pointlight>(vec3(343.f, 548.f, 227.f), sf::Color::White, 1.f));
+		std::shared_ptr<light> l = std::static_pointer_cast<light>(std::make_shared<pointlight>(vec3(343.f, 548.f, 227.f), color::white(), 1.f));
 		m_lights.push_back(l);
 	}
 }

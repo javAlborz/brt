@@ -59,7 +59,7 @@ namespace brt
 		m_objects.push_back(new quadrilateral(vec3(-6.f, -1.f, -23.f), vec3(0.0f, 1.f, 0.f), quadmat, localverts));
 
 		// light
-		std::shared_ptr<light> scenelight = std::static_pointer_cast<light>(std::make_shared<pointlight>(vec3(0.f, 5.f, -3.5f), sf::Color::White, 1.f));
+		std::shared_ptr<light> scenelight = std::static_pointer_cast<light>(std::make_shared<pointlight>(vec3(0.f, 5.f, -3.5f), color::white(), 1.f));
 		m_lights.push_back(scenelight);
 	}
 }

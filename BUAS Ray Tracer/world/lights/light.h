@@ -1,7 +1,7 @@
 #pragma once
 #include "../entity.h"
 
-#include <SFML/Graphics.hpp>
+#include "../../math/color.h"
 
 enum LTYPE
 {
@@ -16,18 +16,18 @@ namespace brt
 	class light : public entity
 	{
 	public:
-		light(sf::Color lightcolor, float intensity);
-		light(const vec3& pos, sf::Color lightcolor, float intensity);
+		light(color lightcolor, float intensity);
+		light(const vec3& pos, color lightcolor, float intensity);
 		virtual ~light();
 
-		sf::Color get_light_color() const { return m_lightcolor; }
+		color get_light_color() const { return m_lightcolor; }
 
 		float get_light_intensity() const { return m_lightintensity; }
 
 		LTYPE m_ltype; // TODO: this should only be set in constructor, restrict access
 
 	protected:
-		sf::Color m_lightcolor;
+		color m_lightcolor;
 		float m_lightintensity;
 	};
 }

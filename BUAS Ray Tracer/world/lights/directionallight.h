@@ -6,7 +6,7 @@ namespace brt
 	class directionallight : public light
 	{
 	public:
-		directionallight(const vec3& unitlightdir, sf::Color lightcolor, float intensity);
+		directionallight(const vec3& unitlightdir, color lightcolor, float intensity);
 		virtual ~directionallight();
 
 		vec3 get_light_dir() const;
