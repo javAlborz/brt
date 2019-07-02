@@ -38,31 +38,26 @@
 #define SHADOW_BIAS 0.0001f
 #define IMAGE_SCALING 1 // TODO: fix this
 
+#define SHOW_OUTDATED_RENDER_EFFECT 0
+
 namespace brt
 {
 	renderer::renderer(raytracer* app) :
 		m_application(app)
 	{
 		m_window = new sf::RenderWindow(sf::VideoMode(static_cast<int>(DEFAULT_SCREEN_WIDTH) * IMAGE_SCALING, static_cast<int>(DEFAULT_SCREEN_HEIGHT) * IMAGE_SCALING), "BUAS Ray Tracer - davidschep");
+
+		m_renderThread = std::thread([this] { this->render(); });
 	}
 
 	renderer::~renderer()
 	{
+		m_renderThread.join();
 		delete m_window;
 	}
 
 	void renderer::update(float)
 	{
-		// image order rendering
-		for (int y = static_cast<int>(m_application->get_scene()->get_camera()->get_screen_height()) - 1; y >= 0; y--) // render order bottom right to top left
-		{
-			for (int x = 0; x < static_cast<int>(m_application->get_scene()->get_camera()->get_screen_width()); x++)
-			{
-				ray r = calculate_point_sample_ray(x, y);
-				m_screenimage->setPixel(x, y, calculate_point_sample(r, 0).to_sf_color());
-			}
-		}
-
 		// apply ray traced rendered image to screen
 		sf::Texture screenTex;
 		// screenTex.setSrgb(false); // default value is already 'false', when this is set to true no gamma correction is applied.
@@ -91,6 +86,36 @@ namespace brt
 	void renderer::window_display() const
 	{
 		m_window->display();
+	}
+
+	void renderer::render()
+	{
+		while (get_window()->isOpen())
+		{
+			// image order rendering
+			if (m_application->get_scene())
+			{
+#if SHOW_OUTDATED_RENDER_EFFECT
+				for (int y = static_cast<int>(m_application->get_scene()->get_camera()->get_screen_height()) - 1; y >= 0; y--)
+				{
+					for (int x = 0; x < static_cast<int>(m_application->get_scene()->get_camera()->get_screen_width()); x++)
+					{
+						sf::Color addedColor = ((x - y) % 8 == 0) ? sf::Color(40, 40, 40) : sf::Color(0, 0, 0);
+						m_screenimage->setPixel(x, y, m_screenimage->getPixel(x, y) + addedColor);
+					}
+				}
+#endif
+				// render order bottom right to top left
+				for (int y = static_cast<int>(m_application->get_scene()->get_camera()->get_screen_height()) - 1; y >= 0; y--)
+				{
+					for (int x = 0; x < static_cast<int>(m_application->get_scene()->get_camera()->get_screen_width()); x++)
+					{
+						ray r = calculate_point_sample_ray(x, y);
+						m_screenimage->setPixel(x, y, calculate_point_sample(r, 0).to_sf_color());
+					}
+				}
+			}
+		}
 	}
 
 	ray renderer::calculate_point_sample_ray(int x, int y) const

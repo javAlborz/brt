@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include <thread>
 
 class vec3;
 
@@ -34,6 +35,8 @@ namespace brt
 		void window_display() const;
 
 	private:
+		void render();
+
 		ray calculate_point_sample_ray(int x, int y) const;
 
 		const color calculate_point_sample(ray& r, int recursivecount) const;
@@ -54,5 +57,7 @@ namespace brt
 		sf::RenderWindow* m_window;
 
 		sf::Image* m_screenimage;
+
+		std::thread m_renderThread;
 	};
 }
