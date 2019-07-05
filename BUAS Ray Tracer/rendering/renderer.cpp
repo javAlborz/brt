@@ -2,6 +2,9 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "../ext/imgui/imgui.h"
+#include "../ext/imgui-sfml/imgui-SFML.h"
+
 #include "../raytracer.h"
 
 #include "camera.h"
@@ -46,6 +49,8 @@ namespace brt
 		m_application(app)
 	{
 		m_window = new sf::RenderWindow(sf::VideoMode(static_cast<int>(DEFAULT_SCREEN_WIDTH) * IMAGE_SCALING, static_cast<int>(DEFAULT_SCREEN_HEIGHT) * IMAGE_SCALING), "BUAS Ray Tracer - davidschep");
+		m_window->setFramerateLimit(60);
+		ImGui::SFML::Init(*m_window);
 
 		m_renderThread = std::thread([this] { this->render(); });
 	}
@@ -53,6 +58,9 @@ namespace brt
 	renderer::~renderer()
 	{
 		m_renderThread.join();
+
+		ImGui::SFML::Shutdown();
+
 		delete m_window;
 	}
 

@@ -3,6 +3,9 @@
 #include <SFML/Graphics.hpp>
 #include <assert.h>
 
+#include "ext/imgui/imgui.h"
+#include "ext/imgui-sfml/imgui-SFML.h"
+
 #include "rendering/renderer.h"
 
 #include "world/scenes/scene.h"
@@ -41,7 +44,7 @@ namespace brt
 		ShowWindow(hWnd, SW_HIDE); // for some reason window thinks it's already shown, have to hide it first
 		ShowWindow(hWnd, SW_SHOW);
 
-		m_inputhandler = std::make_unique<commandlineinputhandler>(this);
+		//m_inputhandler = std::make_unique<commandlineinputhandler>(this);
 
 		run();
 	}
@@ -66,9 +69,14 @@ namespace brt
 			// update
 			float deltat = get_elapsed_time() - lastelapsedtime;
 			lastelapsedtime = get_elapsed_time();
+
+			ImGui::SFML::Update(*m_renderer->get_window(), sf::Time(sf::seconds(deltat)));
+			ImGui::ShowTestWindow();
+
 			update(deltat);
 
 			// render
+			ImGui::SFML::Render(*m_renderer->get_window());
 			m_renderer->window_display();
 		}
 
@@ -90,7 +98,10 @@ namespace brt
 		assert(deltat != 0.f);
 		printf("deltatime: %.4f, fps: %.2f\n", deltat, 1.f / deltat);
 
-		m_scene->update(deltat);
+		if (m_scene) 
+		{
+			m_scene->update(deltat);
+		}
 		m_renderer->update(deltat);
 	}
 
