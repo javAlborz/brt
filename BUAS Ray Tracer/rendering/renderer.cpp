@@ -34,8 +34,8 @@
 #define TO_F(i) static_cast<float>(i)
 
 // these can be overwritten by specific scenes
-#define DEFAULT_SCREEN_WIDTH 340.f
-#define DEFAULT_SCREEN_HEIGHT 180.f
+#define DEFAULT_SCREEN_WIDTH 1280.f
+#define DEFAULT_SCREEN_HEIGHT 720.f
 #define DEFAULT_MAX_CALCULATE_SHADING_RECURSIONS 10
 
 #define SHADOW_BIAS 0.0001f
@@ -50,6 +50,7 @@ namespace brt
 	{
 		m_window = new sf::RenderWindow(sf::VideoMode(static_cast<int>(DEFAULT_SCREEN_WIDTH) * IMAGE_SCALING, static_cast<int>(DEFAULT_SCREEN_HEIGHT) * IMAGE_SCALING), "BUAS Ray Tracer - davidschep");
 		m_window->setFramerateLimit(60);
+		set_resolution(static_cast<int>(DEFAULT_SCREEN_WIDTH), static_cast<int>(DEFAULT_SCREEN_HEIGHT));
 		ImGui::SFML::Init(*m_window);
 
 		m_renderThread = std::thread([this] { this->render(); });
@@ -69,6 +70,7 @@ namespace brt
 		// apply ray traced rendered image to screen
 		sf::Texture screenTex;
 		// screenTex.setSrgb(false); // default value is already 'false', when this is set to true no gamma correction is applied.
+
 		screenTex.loadFromImage(*m_screenimage);
 		sf::Sprite screenSprite(screenTex);
 		screenSprite.setScale(static_cast<float>(IMAGE_SCALING), static_cast<float>(IMAGE_SCALING));

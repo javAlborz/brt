@@ -59,6 +59,8 @@ namespace brt
 			sf::Event event;
 			while (m_renderer->get_window()->pollEvent(event))
 			{
+				ImGui::SFML::ProcessEvent(event);
+
 				if (event.type == sf::Event::Closed)
 					m_renderer->get_window()->close();
 			}
