@@ -41,7 +41,8 @@
 #define SHADOW_BIAS 0.0001f
 #define IMAGE_SCALING 1 // TODO: fix this
 
-#define SHOW_OUTDATED_RENDER_EFFECT 0
+#define SHOW_OUTDATED_RENDER_EFFECT_1 0
+#define SHOW_OUTDATED_RENDER_EFFECT_2 1
 
 namespace brt
 {
@@ -86,6 +87,9 @@ namespace brt
 		}
 		m_screenimage = new sf::Image;
 		m_screenimage->create(width, height, sf::Color::Magenta);
+
+		m_screenwidth = width;
+		m_screenheight = height;
 	}
 
 	void renderer::window_clear() const
@@ -105,10 +109,10 @@ namespace brt
 			// image order rendering
 			if (m_application->get_scene())
 			{
-#if SHOW_OUTDATED_RENDER_EFFECT
-				for (int y = static_cast<int>(m_application->get_scene()->get_camera()->get_screen_height()) - 1; y >= 0; y--)
+#if SHOW_OUTDATED_RENDER_EFFECT_1
+				for (int y = static_cast<int>(get_screen_height()) - 1; y >= 0; y--)
 				{
-					for (int x = 0; x < static_cast<int>(m_application->get_scene()->get_camera()->get_screen_width()); x++)
+					for (int x = 0; x < static_cast<int>(get_screen_width()); x++)
 					{
 						sf::Color addedColor = ((x - y) % 8 == 0) ? sf::Color(40, 40, 40) : sf::Color(0, 0, 0);
 						m_screenimage->setPixel(x, y, m_screenimage->getPixel(x, y) + addedColor);
@@ -116,14 +120,25 @@ namespace brt
 				}
 #endif
 				// render order bottom right to top left
-				for (int y = static_cast<int>(m_application->get_scene()->get_camera()->get_screen_height()) - 1; y >= 0; y--)
+				for (int y = static_cast<int>(get_screen_height()) - 1; y >= 0; y--)
 				{
-					for (int x = 0; x < static_cast<int>(m_application->get_scene()->get_camera()->get_screen_width()); x++)
+#if SHOW_OUTDATED_RENDER_EFFECT_2
+					for (int x = 0; x < static_cast<int>(get_screen_width()); x++)
+					{
+						m_screenimage->setPixel(x, y, m_screenimage->getPixel(x, y) + sf::Color(100, 0, 0));
+						if (y - 1 > 0) m_screenimage->setPixel(x, y - 1, sf::Color(255, 0, 0));
+						if (y - 2 > 0) m_screenimage->setPixel(x, y - 2, sf::Color(255, 0, 0));
+					}
+#endif
+					for (int x = 0; x < static_cast<int>(get_screen_width()); x++)
 					{
 						ray r = calculate_point_sample_ray(x, y);
 						m_screenimage->setPixel(x, y, calculate_point_sample(r, 0).to_sf_color());
 					}
 				}
+
+				// TODO: keep track of render cycle delta time and be able to limit fps to 60 (by letting thread sleep)
+				//printf("Ray trace render cycle done.\n");
 			}
 		}
 	}
@@ -132,8 +147,8 @@ namespace brt
 	{
 		camera* cam = m_application->get_scene()->get_camera();
 
-		float xoffset = (static_cast<float>(x) + 0.5f) / cam->get_screen_width() - 0.5f; // number from -0.5f to 0.5f
-		float yoffset = (static_cast<float>(y) + 0.5f) / cam->get_screen_width() - (0.5f / cam->get_aspect_ratio()); // number from -0.5f/aspect to 0.5f/aspect
+		float xoffset = (static_cast<float>(x) + 0.5f) / get_screen_width() - 0.5f; // number from -0.5f to 0.5f
+		float yoffset = (static_cast<float>(y) + 0.5f) / get_screen_width() - (0.5f / get_aspect_ratio()); // number from -0.5f/aspect to 0.5f/aspect
 		vec3 raydir = (
 			cam->get_cam_dir() +
 			cam->get_cam_right() * xoffset +

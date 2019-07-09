@@ -22,9 +22,6 @@
 #include "../objects/boundingvolumes/boundingvolume.h"
 #include <memory>
 
-#define SCREEN_WIDTH 340.f
-#define SCREEN_HEIGHT 180.f
-
 #define SCENE_CENTER vec3(0.f, 0.f, -10.f)
 
 namespace brt
@@ -46,8 +43,7 @@ namespace brt
 		vec3 campos(0.f, 9.f, 14.f);
 		// 		vec3 lookatpos(0.f, 2.f, -10.f);
 		// 		vec3 campos(0.f, 20.f, -9.5f); // this doesn't work when z=-10 ???
-		m_camera = new camera(lookatpos, campos, vec3::up(), SCREEN_WIDTH, SCREEN_HEIGHT);
-		m_raytracer->get_renderer()->set_resolution(static_cast<unsigned int>(SCREEN_WIDTH), static_cast<unsigned int>(SCREEN_HEIGHT));
+		m_camera = new camera(lookatpos, campos, vec3::up());
 
 		// metal sphere
 		std::shared_ptr<material> metalspheremat = std::static_pointer_cast<material>(std::make_shared<materialdefault>(color(50, 50, 50), 5.f, color(160, 160, 160), 0.8f));

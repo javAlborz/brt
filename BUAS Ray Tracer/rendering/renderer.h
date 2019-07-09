@@ -29,7 +29,12 @@ namespace brt
 		void update(float deltat);
 
 		sf::RenderWindow* get_window() const { return m_window; }
+
 		void set_resolution(unsigned int width, unsigned int height);
+
+		const float get_aspect_ratio() const { return static_cast<float>(m_screenwidth) / static_cast<float>(m_screenheight); }
+		const unsigned int get_screen_width() const { return m_screenwidth; }
+		const unsigned int get_screen_height() const { return m_screenheight; }
 
 		void window_clear() const;
 		void window_display() const;
@@ -59,5 +64,7 @@ namespace brt
 		sf::Image* m_screenimage;
 
 		std::thread m_renderThread;
+
+		unsigned int m_screenwidth, m_screenheight;
 	};
 }

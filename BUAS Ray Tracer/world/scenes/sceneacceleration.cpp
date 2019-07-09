@@ -17,9 +17,6 @@
 #include "../../math/color.h"
 #include "../objects/boundingvolumes/boundingvolume.h"
 
-#define SCREEN_WIDTH 340.f
-#define SCREEN_HEIGHT 180.f
-
 namespace brt
 {
 	sceneacceleration::sceneacceleration(raytracer * application) : scene(application)
@@ -38,8 +35,7 @@ namespace brt
 		vec3 lookatpos(0.f, 2.f, 0.f);
 		vec3 campos(0.f, 6.f, 20.f);
 
-		m_camera = new camera(lookatpos, campos, vec3::up(), SCREEN_WIDTH, SCREEN_HEIGHT);
-		m_raytracer->get_renderer()->set_resolution(static_cast<unsigned int>(SCREEN_WIDTH), static_cast<unsigned int>(SCREEN_HEIGHT));
+		m_camera = new camera(lookatpos, campos, vec3::up());
 
 		//const int totalspheres = 1000;
 		const int treechildren = 10;

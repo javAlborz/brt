@@ -9,17 +9,7 @@
 #include "rendering/renderer.h"
 
 #include "world/scenes/scene.h"
-#include "world/scenes/scenewhitted.h"
-#include "world/scenes/scenecornell.h"
-#include "world/scenes/sceneboxes.h"
-#include "world/scenes/scenetest.h"
-
-#include "world/scenes/sceneacceleration.h"
-
-#include "userinput/commandlineinputhandler.h"
-
-// to show console
-#include <windows.h>
+#include "world/scenes/general/scenemanager.h"
 
 namespace brt
 {
@@ -37,14 +27,10 @@ namespace brt
 	{
 		m_clock = new sf::Clock();
 
+		m_scenemanager = new scenemanager(this);
 		m_renderer = new renderer(this);
 
-		// bring console window forward
-		HWND hWnd = GetConsoleWindow();
-		ShowWindow(hWnd, SW_HIDE); // for some reason window thinks it's already shown, have to hide it first
-		ShowWindow(hWnd, SW_SHOW);
-
-		//m_inputhandler = std::make_unique<commandlineinputhandler>(this);
+		m_scenemanager->load_scene(scenes::MAIN_MENU);
 
 		run();
 	}
@@ -73,8 +59,8 @@ namespace brt
 			lastelapsedtime = get_elapsed_time();
 
 			ImGui::SFML::Update(*m_renderer->get_window(), sf::Time(sf::seconds(deltat)));
-			ImGui::ShowTestWindow();
 
+			m_scenemanager->update();
 			update(deltat);
 
 			// render
@@ -88,11 +74,7 @@ namespace brt
 	void raytracer::destroy()
 	{
 		delete m_renderer;
-
-		if (m_scene)
-		{
-			delete m_scene;
-		}
+		delete m_scenemanager;
 	}
 
 	void raytracer::update(float deltat)
@@ -100,20 +82,11 @@ namespace brt
 		assert(deltat != 0.f);
 		printf("deltatime: %.4f, fps: %.2f\n", deltat, 1.f / deltat);
 
-		if (m_scene) 
+		if (get_scene())
 		{
-			m_scene->update(deltat);
+			get_scene()->update(deltat);
 		}
 		m_renderer->update(deltat);
-	}
-
-	void raytracer::load_scene(scene* s)
-	{
-		if (m_scene)
-		{
-			delete m_scene;
-		}
-		m_scene = s;
 	}
 
 	const float raytracer::get_elapsed_time() const
@@ -122,13 +95,8 @@ namespace brt
 		return t.asSeconds();
 	}
 
-	scene * raytracer::get_scene() const
-	{
-		return m_scene;
-	}
+	renderer * raytracer::get_renderer() const { return m_renderer; }
 
-	renderer * raytracer::get_renderer() const
-	{
-		return m_renderer;
-	}
+	scene * raytracer::get_scene() const { return m_scenemanager->get_scene(); }
+	scenemanager * raytracer::get_scene_manager() { return m_scenemanager; }
 }

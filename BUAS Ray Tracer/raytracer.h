@@ -10,6 +10,7 @@ namespace sf
 namespace brt
 {
 	class scene;
+	class scenemanager;
 	class renderer;
 	class commandlineinputhandler;
 
@@ -21,8 +22,7 @@ namespace brt
 
 		scene* get_scene() const;
 		renderer* get_renderer() const;
-
-		void load_scene(scene* s);
+		scenemanager* get_scene_manager();
 
 	private:
 		void start();
@@ -34,9 +34,7 @@ namespace brt
 		const float get_elapsed_time() const;
 
 	private:
-		std::unique_ptr<commandlineinputhandler> m_inputhandler;
-
-		scene* m_scene;
+		scenemanager* m_scenemanager;
 
 		renderer* m_renderer;
 

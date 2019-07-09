@@ -21,7 +21,7 @@ namespace brt
 		std::vector<std::shared_ptr<light>> get_lights() const;
 		camera* get_camera() const;
 
-		void update(float deltat);
+		virtual void update(float deltat);
 
 		intersection check_for_intersection(const ray& r) const;
 

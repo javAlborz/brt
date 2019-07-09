@@ -22,9 +22,6 @@
 #include "../objects/aabb.h"
 #include "../../debugging/debugtools.h"
 
-#define SCREEN_WIDTH 340.f
-#define SCREEN_HEIGHT 180.f
-
 namespace brt
 {
 	scenetest::scenetest(raytracer * application) : scene(application)
@@ -43,8 +40,7 @@ namespace brt
 		vec3 lookatpos(0.f, 2.f, -5.f);
 		vec3 campos(4.f, 3.f, 3.f);
 
-		m_camera = new camera(lookatpos, campos, vec3::up(), SCREEN_WIDTH, SCREEN_HEIGHT);
-		m_raytracer->get_renderer()->set_resolution(static_cast<unsigned int>(SCREEN_WIDTH), static_cast<unsigned int>(SCREEN_HEIGHT));
+		m_camera = new camera(lookatpos, campos, vec3::up());
 
 		// oriented bounding box
 		vec3 corner1 = vec3(-0.5f, -0.75f, -0.5f);

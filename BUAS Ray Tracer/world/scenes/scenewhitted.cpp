@@ -18,9 +18,6 @@
 
 #include "../../raytracer.h"
 
-#define SCREEN_WIDTH 340.f
-#define SCREEN_HEIGHT 180.f
-
 namespace brt
 {
 	scenewhitted::scenewhitted(raytracer* application) : scene(application)
@@ -38,8 +35,7 @@ namespace brt
 		// camera
 		vec3 lookatpos(0.f, 2.2f, -5.f);
 		vec3 campos(0.f, 2.5f, 0.f);
-		m_camera = new camera(lookatpos, campos, vec3::up(), SCREEN_WIDTH, SCREEN_HEIGHT);
-		m_raytracer->get_renderer()->set_resolution(static_cast<unsigned int>(SCREEN_WIDTH), static_cast<unsigned int>(SCREEN_HEIGHT));
+		m_camera = new camera(lookatpos, campos, vec3::up());
 
 		// glass sphere
 		std::shared_ptr<material> glassspheremat = std::static_pointer_cast<material>(std::make_shared<materialdefault>(color(230, 230, 230, 80), 200.f, color(150, 150, 150), 0.f, true, /*0.97f*/ REFRACTIVEGLASS));

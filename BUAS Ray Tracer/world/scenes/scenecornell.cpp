@@ -16,9 +16,6 @@
 
 #include "../../RayTracer.h"
 
-#define SCREEN_WIDTH 300.f
-#define SCREEN_HEIGHT 300.f
-
 namespace brt
 {
 	scenecornell::scenecornell(raytracer* application) : scene(application)
@@ -35,8 +32,7 @@ namespace brt
 	{
 		vec3 lookatpos(278.f, 273.f, -0.f);
 		vec3 campos(278.f, 273.f, -800.f);
-		m_camera = new camera(lookatpos, campos, vec3::up(), SCREEN_WIDTH, SCREEN_HEIGHT);
-		m_raytracer->get_renderer()->set_resolution(static_cast<unsigned int>(SCREEN_WIDTH), static_cast<unsigned int>(SCREEN_HEIGHT));
+		m_camera = new camera(lookatpos, campos, vec3::up());
 
 		// objects
 		// floor

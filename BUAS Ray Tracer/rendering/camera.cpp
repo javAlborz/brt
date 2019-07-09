@@ -6,7 +6,7 @@
 
 namespace brt
 {
-	camera::camera(const vec3 & lookpos, const vec3 & campos, const vec3 & up, float screenwidth, float screeneheight) :entity(campos), m_screenwidth(screenwidth), m_screenheight(screeneheight)
+	camera::camera(const vec3 & lookpos, const vec3 & campos, const vec3 & up) :entity(campos)
 	{
 		vec3 diff_btw = campos - lookpos;
 		m_camdir = diff_btw.normalize() * -1.f;
@@ -61,20 +61,6 @@ namespace brt
 		// TODO: change camera to look towards a rotation, instead of towards a point, then rotate camera with mouse/keys to able to fly around
 	}
 
-	const float camera::get_aspect_ratio() const
-	{
-		return m_screenwidth / m_screenheight;
-	}
-	const float camera::get_screen_width() const
-	{
-		return m_screenwidth;
-	}
-
-	const float camera::get_screen_height() const
-	{
-		return m_screenheight;
-	}
-
 	const vec3 camera::get_cam_dir() const
 	{
 		return m_camdir;
@@ -89,5 +75,4 @@ namespace brt
 	{
 		return m_camdown;
 	}
-
 }

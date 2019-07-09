@@ -96,9 +96,6 @@
     <ClCompile Include="world\scenes\sceneacceleration.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="userinput\commandlineinputhandler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ext\imgui\imgui.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -112,6 +109,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ext\imgui-sfml\imgui-SFML.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="world\scenes\scenemainmenu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="world\scenes\general\scenemanager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -206,9 +209,6 @@
     <ClInclude Include="world\scenes\sceneacceleration.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="userinput\commandlineinputhandler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ext\imgui\imconfig.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -234,6 +234,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ext\imgui-sfml\imgui-SFML_export.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="world\scenes\scenemainmenu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="world\scenes\general\scenemanager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
