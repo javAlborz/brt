@@ -36,10 +36,10 @@
 // these can be overwritten by specific scenes
 #define DEFAULT_SCREEN_WIDTH 1280.f
 #define DEFAULT_SCREEN_HEIGHT 720.f
+
 #define DEFAULT_MAX_CALCULATE_SHADING_RECURSIONS 10
 
 #define SHADOW_BIAS 0.0001f
-#define IMAGE_SCALING 1 // TODO: fix this
 
 #define SHOW_OUTDATED_RENDER_EFFECT_1 0
 #define SHOW_OUTDATED_RENDER_EFFECT_2 1
@@ -47,9 +47,9 @@
 namespace brt
 {
 	renderer::renderer(raytracer* app) :
-		m_application(app)
+		m_application(app), m_imagescaling(DEFAULT_IMAGE_SCALING)
 	{
-		m_window = new sf::RenderWindow(sf::VideoMode(static_cast<int>(DEFAULT_SCREEN_WIDTH) * IMAGE_SCALING, static_cast<int>(DEFAULT_SCREEN_HEIGHT) * IMAGE_SCALING), "BUAS Ray Tracer - davidschep");
+		m_window = new sf::RenderWindow(sf::VideoMode(static_cast<int>(DEFAULT_SCREEN_WIDTH), static_cast<int>(DEFAULT_SCREEN_HEIGHT)), "BUAS Ray Tracer - davidschep");
 		m_window->setFramerateLimit(60);
 		set_resolution(static_cast<int>(DEFAULT_SCREEN_WIDTH), static_cast<int>(DEFAULT_SCREEN_HEIGHT));
 		ImGui::SFML::Init(*m_window);
@@ -74,22 +74,33 @@ namespace brt
 
 		screenTex.loadFromImage(*m_screenimage);
 		sf::Sprite screenSprite(screenTex);
-		screenSprite.setScale(static_cast<float>(IMAGE_SCALING), static_cast<float>(IMAGE_SCALING));
+		screenSprite.setScale(m_imagescaling, m_imagescaling);
 		m_window->draw(screenSprite); // this way all image data is send to the gpu at once
 	}
 
 	void renderer::set_resolution(unsigned int width, unsigned int height)
 	{
-		m_window->setSize(sf::Vector2u(width * IMAGE_SCALING, height * IMAGE_SCALING));
+		m_screenwidth = width;
+		m_screenheight = height;
+
+		m_window->setSize(sf::Vector2u(width, height));
 		if (m_screenimage)
 		{
 			delete m_screenimage;
 		}
 		m_screenimage = new sf::Image;
-		m_screenimage->create(width, height, sf::Color::Magenta);
+		m_screenimage->create(get_adjusted_screen_width(), get_adjusted_screen_height(), sf::Color::Magenta);
+	}
 
-		m_screenwidth = width;
-		m_screenheight = height;
+	const unsigned int renderer::get_adjusted_screen_width() const
+	{
+		assert(m_imagescaling != 0.f);
+		return static_cast<unsigned int>(static_cast<float>(m_screenwidth) / m_imagescaling);
+	}
+	const unsigned int renderer::get_adjusted_screen_height() const
+	{
+		assert(m_imagescaling != 0.f);
+		return static_cast<unsigned int>(static_cast<float>(m_screenheight) / m_imagescaling);
 	}
 
 	void renderer::window_clear() const
@@ -109,10 +120,23 @@ namespace brt
 			// image order rendering
 			if (m_application->get_scene())
 			{
-#if SHOW_OUTDATED_RENDER_EFFECT_1
-				for (int y = static_cast<int>(get_screen_height()) - 1; y >= 0; y--)
+				unsigned int width = get_adjusted_screen_width();
+				unsigned int height = get_adjusted_screen_height();
+
+				if (width != m_screenimage->getSize().x || height != m_screenimage->getSize().y)
 				{
-					for (int x = 0; x < static_cast<int>(get_screen_width()); x++)
+					if (m_screenimage)
+					{
+						delete m_screenimage;
+					}
+					m_screenimage = new sf::Image;
+					m_screenimage->create(width, height, sf::Color::Magenta);
+				}
+
+#if SHOW_OUTDATED_RENDER_EFFECT_1
+				for (unsigned int y = height - 1; y != (unsigned int)-1; --y)
+				{
+					for (unsigned int x = 0; x < width; x++)
 					{
 						sf::Color addedColor = ((x - y) % 8 == 0) ? sf::Color(40, 40, 40) : sf::Color(0, 0, 0);
 						m_screenimage->setPixel(x, y, m_screenimage->getPixel(x, y) + addedColor);
@@ -120,17 +144,17 @@ namespace brt
 				}
 #endif
 				// render order bottom right to top left
-				for (int y = static_cast<int>(get_screen_height()) - 1; y >= 0; y--)
+				for (unsigned int y = height - 1; y != (unsigned int)-1; --y)
+				//for (int y = height - 1; y >= 0; y--) // this works but uses signed bits
+				//for (unsigned int y = height - 1; y > 0; y--) // this skips zero, is this a modulo operator issue?
 				{
 #if SHOW_OUTDATED_RENDER_EFFECT_2
-					for (int x = 0; x < static_cast<int>(get_screen_width()); x++)
+					for (unsigned int x = 0; x < width; x++)
 					{
-						m_screenimage->setPixel(x, y, m_screenimage->getPixel(x, y) + sf::Color(100, 0, 0));
-						if (y - 1 > 0) m_screenimage->setPixel(x, y - 1, sf::Color(255, 0, 0));
-						if (y - 2 > 0) m_screenimage->setPixel(x, y - 2, sf::Color(255, 0, 0));
+						if (static_cast<unsigned int>(y - 2) < height - 1) m_screenimage->setPixel(x, static_cast<unsigned int>(y - 2), sf::Color(255, 0, 0));
 					}
 #endif
-					for (int x = 0; x < static_cast<int>(get_screen_width()); x++)
+					for (unsigned int x = 0; x < width; x++)
 					{
 						ray r = calculate_point_sample_ray(x, y);
 						m_screenimage->setPixel(x, y, calculate_point_sample(r, 0).to_sf_color());
@@ -147,8 +171,8 @@ namespace brt
 	{
 		camera* cam = m_application->get_scene()->get_camera();
 
-		float xoffset = (static_cast<float>(x) + 0.5f) / get_screen_width() - 0.5f; // number from -0.5f to 0.5f
-		float yoffset = (static_cast<float>(y) + 0.5f) / get_screen_width() - (0.5f / get_aspect_ratio()); // number from -0.5f/aspect to 0.5f/aspect
+		float xoffset = (static_cast<float>(x) + 0.5f) / get_adjusted_screen_width() - 0.5f; // number from -0.5f to 0.5f
+		float yoffset = (static_cast<float>(y) + 0.5f) / get_adjusted_screen_width() - (0.5f / get_aspect_ratio()); // number from -0.5f/aspect to 0.5f/aspect
 		vec3 raydir = (
 			cam->get_cam_dir() +
 			cam->get_cam_right() * xoffset +

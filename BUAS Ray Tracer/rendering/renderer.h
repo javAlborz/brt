@@ -2,6 +2,8 @@
 #include <memory>
 #include <thread>
 
+#define DEFAULT_IMAGE_SCALING 4.f
+
 class vec3;
 
 namespace sf
@@ -31,10 +33,13 @@ namespace brt
 		sf::RenderWindow* get_window() const { return m_window; }
 
 		void set_resolution(unsigned int width, unsigned int height);
+		void set_image_scaling(float scaling) { m_imagescaling = scaling;  }
 
 		const float get_aspect_ratio() const { return static_cast<float>(m_screenwidth) / static_cast<float>(m_screenheight); }
 		const unsigned int get_screen_width() const { return m_screenwidth; }
 		const unsigned int get_screen_height() const { return m_screenheight; }
+		const unsigned int get_adjusted_screen_width() const;
+		const unsigned int get_adjusted_screen_height() const;
 
 		void window_clear() const;
 		void window_display() const;
@@ -66,5 +71,6 @@ namespace brt
 		std::thread m_renderThread;
 
 		unsigned int m_screenwidth, m_screenheight;
+		float m_imagescaling;
 	};
 }

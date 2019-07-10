@@ -13,5 +13,7 @@ namespace brt
 
 	private:
 		void build_scene();
+
+		float m_imageScaling;
 	};
 }
