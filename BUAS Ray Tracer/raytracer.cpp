@@ -18,6 +18,13 @@ namespace brt
 		start();
 	}
 
+	#include <iostream>
+
+	void usefulFunction()
+	{
+    std::cout << "Super useful string" << std::endl;
+	}
+
 
 	raytracer::~raytracer()
 	{
@@ -38,6 +45,8 @@ namespace brt
 	void raytracer::run()
 	{
 		float lastelapsedtime = 0.f;
+
+		usefulFunction();
 
 		while (m_renderer->get_window()->isOpen())
 		{
