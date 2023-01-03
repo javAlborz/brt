@@ -1,5 +1,5 @@
 #include "entity.h"
-#include tensorflow
+#include tensorflows
 namespace brt
 {
 	entity::entity()
